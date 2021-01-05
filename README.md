@@ -5,7 +5,7 @@ User can retrieve some information using commandline or importing functions in o
 
 ##### Steps to get bioinformatic toolbox running:
 ```console
-$ git clone git@gitlab.mff.cuni.cz:dorcakot/bioinformatic-toolbox.git
+$ git clone https://gitlab.mff.cuni.cz/dorcakot/bioinformatic-toolbox.git
 $ cd bioinformatic-toolbox
 $ python setup.py install
 ``` 
