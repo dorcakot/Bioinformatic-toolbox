@@ -3,6 +3,13 @@
 Bioinformatic toolbox contains basic functions, which help to handle basic bioinformatic tasks.
 User can retrieve some information using commandline or importing functions in own python program and work further with obtained objects and information.
 
+##### Steps to get bioinformatic toolbox running:
+```console
+$ git clone git@gitlab.mff.cuni.cz:dorcakot/bioinformatic-toolbox.git
+$ cd bioinformatic-toolbox
+$ python setup.py install
+``` 
+
 ##### Measuring sequence similarity using Hamming distance
 Function **hd(seq1, seq2)** prints Hamming distance of two given sequences of identical length. In case of different length, error message is returned.
 
