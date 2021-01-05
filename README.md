@@ -11,7 +11,7 @@ $ python setup.py install
 ``` 
 
 ##### Measuring sequence similarity using Hamming distance
-Function **hd(seq1, seq2)** prints Hamming distance of two given sequences of identical length. In case of different length, error message is returned.
+Function hd(seq1, seq2) prints Hamming distance of two given sequences of identical length. In case of different length, error message is returned.
 
 *Commandline access:* 
 ```console
@@ -55,7 +55,7 @@ Example use:
 Exception: Sequences have different length!
 ```
 ##### Sequence alignment using edit distance
-Function **edit_distance(seq1, seq2)** returns value of edit distance of the two sequences. To get list of all alignments use function **all_alignments(seq1, seq2)**.
+Function edit_distance(seq1, seq2) returns value of edit distance of the two sequences. To get list of all alignments use function all_alignments(seq1, seq2).
 
 *Commandline access:*
 ```console
@@ -99,7 +99,7 @@ sta-ll
 -table
 ```
 ##### Processing FASTA files
-Parser of FASTA files is implemented as a class **Fasta**. An instance is initialized by file name of data stored in fasta format. An array of molecules contained in this file is created. Such instance contains an array of molecules from this file accesible via property molecules or function get_molecules. To get information (description, sequence, sequence length) about individual molecules, use the number of the molecule and corresponding function (**get_description**, **get_sequence**...).
+Parser of FASTA files is implemented as a class Fasta. An instance is initialized by file name of data stored in fasta format. An array of molecules contained in this file is created. Such instance contains an array of molecules from this file accesible via property molecules or function get_molecules. To get information (description, sequence, sequence length) about individual molecules, use the number of the molecule and corresponding function (get_description, get_sequence...).
 
 *Commandline access:*
 ```console
@@ -136,7 +136,7 @@ ATAATTGGGCAAGTC
 CGTAACAAGGTTTCCGTAGGTGAACCTGCGGAAGGATCATTGTTGAGACAGCAGAATATATGATCGAGTGAATCCGGTGGACTTGTGGTTACTCAGCTCGACATAGGCTTTGCTTTTGCGGTGACCCTAATTTGTCATTGGGCCTCCCCCCAAGCTTTCCTTGTGGGTTTGAACCTCTAGCACGGTGCAGTATGCGCCAAGTCATATGAAGCATCACTGATGAATGACATTATTGTCCAAAAAGTTGGAGTGGAAGCGTGCTATTGCATACATGCAAATGAATTTTTTATGACTCTCGACATATCGTGGTGTGATCGCAGAATCCCGTGAACCATCGAGTCTTTGAACGCAAGTTGCGCCCGATGCCATCAGGCTAAGGGAACGCCTGCCTGGGCGTCGTGTGCTGCGTCTCTCCTGTCAATGGTTATACGTCATATAGACAGGTTTGCATTGCGTGGATGTGAAAGATTGGCCCCTTGTGCCTAGGTGCGGTGGGTCTAAGGACTAGTGTTTTGATGGTTCGAAACCTGGCAGGAGGTGGAGGATGTTGGCAGCTATAAGGCTATCATTTGAATCCCCCATATTGTCGTGTTTGTCGGACCTAGAGAAGAACATGTTTGAATCCCAATGGGGGCAAACAACCCTCGGGCGGTTGATTGCCATTCATATGCGACCCCAGGTCAGGCGGCCACCCGCTGAG
 ```
 ##### Processing multiple sequence alignment
-Parser of multiple sequence alignment data stored in clustal format implemented as a class **MSA**. To create an instance use name of file. Functionalities of the parser include obtaining sequence by position/id, column by its position number, score of such column or score of the whole msa with respect to given scoring matrix passed as argument (default matrix is Blosum62, default gap penalty is 1 (passed as positive number and subtracted from the score)). To use in other ways, user is able to access alignment via class property align.
+Parser of multiple sequence alignment data stored in clustal format implemented as a class MSA. To create an instance use name of file. Functionalities of the parser include obtaining sequence by position/id, column by its position number, score of such column or score of the whole msa with respect to given scoring matrix passed as argument (default matrix is Blosum62, default gap penalty is 1 (passed as positive number and subtracted from the score)). To use in other ways, user is able to access alignment via class property align.
 
 *Commandline access:*
 ```console
