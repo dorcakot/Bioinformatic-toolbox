@@ -1,6 +1,5 @@
 from Bio import AlignIO, Align
 
-
 class MSA:
     """
     Class MSA is a reprezentation of multiple sequence alignment data stored in clustal format.

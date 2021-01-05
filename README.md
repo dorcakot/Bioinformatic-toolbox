@@ -8,25 +8,26 @@ Function **hd(seq1, seq2)** prints Hamming distance of two given sequences of id
 
 *Commandline access:* 
 ```console
-$ python3 main.py hd seq1 seq2
+$ binf hd seq1 seq2
 ```
 Example use: 
 ```console
-$ python3 main.py hd ATCG ATGC
+$ binf hd ATCG ATGC
 2
 ```
 ```console
-$python3 main.py hd ATCG ATG 
+$ binf hd ATCG ATG 
 Exception: Sequences have different length!
 ```
 *Python access:*
 ```
->>> import ham 
->>> ham.hd(seq1, seq2)
+>>> from binf.ham import * 
+>>> hd(seq1, seq2)
 ```
 Example use: 
 ```
->>> file = fasta.Fasta("inputs/ls_orchid.fasta") 
+>>> from binf.fasta import *
+>>> file = Fasta("inputs/ls_orchid.fasta") 
 >>> a = file.get_subsequence(0, 0, 5) 
 >>> b = file.get_subsequence(0, 0, 5)
 >>> print(hd(a, b))
@@ -51,15 +52,15 @@ Function **edit_distance(seq1, seq2)** returns value of edit distance of the two
 
 *Commandline access:*
 ```console
-$ python3 main.py ed seq1 seq2 [--align]
+$ binf ed seq1 seq2 [--align]
 ```
 Example use: 
 ```console
-$ python3 main.py ed abeceda abecede 
+$ binf ed abeceda abecede 
 1
 ```
 ```console
-$ python3 main.py ed writers vintner --align 
+$ binf ed writers vintner --align 
 5 
 wri-t-ers 
 -vintner-
@@ -72,9 +73,9 @@ vintner-
 ```
 *Python access:*
 ```
->>> import edit 
->>> edit.edit_distance(seq1, seq2) 
->>> edit.all_alignments(seq1, seq2)
+>>> from binf.edit import *
+>>> edit_distance(seq1, seq2) 
+>>> all_alignments(seq1, seq2)
 ```
 Example use: 
 ```
@@ -95,31 +96,36 @@ Parser of FASTA files is implemented as a class **Fasta**. An instance is initia
 
 *Commandline access:*
 ```console
-$ python3 main.py fasta file_name [--description molecule_num] [--sequence molecule_num] [--length molecule_num] [--sub molecule_num start end]
+$ binf fasta file_name [--description molecule_num] [--sequence molecule_num] [--length molecule_num] [--sub molecule_num start end]
 ```
 Example use:
 ```console
-$ python3 main.py fasta inputs/ls_orchid.fasta --description 0 
+$ binf fasta inputs/ls_orchid.fasta --description 0 
 gi|2765658|emb|Z78533.1|CIZ78533 C.irapeanum 5.8S rRNA gene and ITS1 and ITS2 DNA
 ```
 ```console
-$ python3 main.py fasta inputs/ls_orchid.fasta --length 0 
-740
+$ binf fasta inputs/1tup.fasta --length 1
+21
 ```
 *Python access:*
 ```
->>> import fasta 
->>> molecules = fasta.Fasta(file_name)
+>>> from binf.fasta import *
+>>> molecules = Fasta(file_name)
+>>> molecules.get_molecules()
+>>> molecules.get_description(seq_num)
+>>> molecules.get_sequence(seq_num)
+>>> molecules.get_sequence_length(seq_num)
+>>> molecules.get_subsequence(seq_num, start, end)
 ```
 Example use:
 ```
->>> molecules = fasta.Fasta('inputs/ls_orchid.fasta') 
->>> print(molecules.get_subsequence(0, 0, 15))
-CGTAACAAGGTTTCC
+>>> molecules = Fasta('inputs/1tup.fasta') 
+>>> print(molecules.get_subsequence(1, 0, 15))
+ATAATTGGGCAAGTC
 ```
 ```
->>> molecules = fasta.File('inputs/ls_orchid.fasta')
->>> print(mplecules.get_sequence(10)
+>>> molecules = Fasta('inputs/ls_orchid.fasta')
+>>> print(molecules.get_sequence(10)
 CGTAACAAGGTTTCCGTAGGTGAACCTGCGGAAGGATCATTGTTGAGACAGCAGAATATATGATCGAGTGAATCCGGTGGACTTGTGGTTACTCAGCTCGACATAGGCTTTGCTTTTGCGGTGACCCTAATTTGTCATTGGGCCTCCCCCCAAGCTTTCCTTGTGGGTTTGAACCTCTAGCACGGTGCAGTATGCGCCAAGTCATATGAAGCATCACTGATGAATGACATTATTGTCCAAAAAGTTGGAGTGGAAGCGTGCTATTGCATACATGCAAATGAATTTTTTATGACTCTCGACATATCGTGGTGTGATCGCAGAATCCCGTGAACCATCGAGTCTTTGAACGCAAGTTGCGCCCGATGCCATCAGGCTAAGGGAACGCCTGCCTGGGCGTCGTGTGCTGCGTCTCTCCTGTCAATGGTTATACGTCATATAGACAGGTTTGCATTGCGTGGATGTGAAAGATTGGCCCCTTGTGCCTAGGTGCGGTGGGTCTAAGGACTAGTGTTTTGATGGTTCGAAACCTGGCAGGAGGTGGAGGATGTTGGCAGCTATAAGGCTATCATTTGAATCCCCCATATTGTCGTGTTTGTCGGACCTAGAGAAGAACATGTTTGAATCCCAATGGGGGCAAACAACCCTCGGGCGGTTGATTGCCATTCATATGCGACCCCAGGTCAGGCGGCCACCCGCTGAG
 ```
 ##### Processing multiple sequence alignment
@@ -127,25 +133,30 @@ Parser of multiple sequence alignment data stored in clustal format implemented 
 
 *Commandline access:*
 ```console
-$ python3 main.py msa file_name [--position num] [--id id] [--column column_num] [--column_score column_num] [--score]
+$ binf msa file_name [--position num] [--id id] [--column column_num] [--column_score column_num] [--score]
 ```
 Example use: 
 ```console
-$ python3 main.py msa inputs/p53.clustal --position 17 
+$ binf msa inputs/p53.clustal --position 17 
 ID: UniRef90_UPI000 Name: Description: UniRef90_UPI000 Number of features: 0 Seq('MLGNSPARVECEPGGSGQGSRGIRVLPEARIGETVSFSCSCGNGVLPEATMTDP...DSD')
 ```
 ```console
-$python3 main.py msa inputs/p53.clustal --score
+$ binf msa inputs/p53.clustal --score
 2050433.0
 ```
 ```console
-$ python3 main.py msa inputs/p53.clustal --column_score 100 
+$ binf msa inputs/p53.clustal --column_score 100 
 1333.0
 ```
 *Python access:* 
 ```
->>> import msa 
->>> data = MSA(file_name) 
+>>> from binf.msa import * 
+>>> data = MSA(file_name)
+>>> data.get_seq_by_position(position_num)
+>>> data.get_seq_by_id(position_id)
+>>> data.get_column(col_num)
+>>> data.get_column_score(col_num, matrix=Align.substitution_matrices.load('PAM250'), gap=1) 
+>>> data.get_score(matrix=Align.substitution_matrices.load('PAM250'), gap=1)
 ```
 Example use:
 ```
@@ -164,11 +175,11 @@ Extension of msa library. Specify sequence in msa and retrieve its conservation 
 
 *Commandline access:*
 ```console
-$ python3 main.py msa file [--top N] [--conservation seq_num]
+$ binf msa file [--top N] [--conservation seq_num]
 ```
 Example use: 
 ```console
-$ python3 main.py msa inputs/p53.clustal --top 9 
+$ binf msa inputs/p53.clustal --top 9 
 Position 74 has score 25192.0 
 Position 370 has score 18480.0 
 Position 368 has score 18480.0 
@@ -181,7 +192,7 @@ Position 310 has score 15400.0
 ```
 *Python access:*
 ```
->>> import msa 
+>>> from binf.msa import * 
 >>> data = MSA(file_name) 
 >>> data.get_conservation_scores(seq_num, matrix=Align.substitution_matrices.load('BLOSUM62'), gap=1)
 >>> data.get_top_scoring_position(N, matrix=Align.substitution_matrices.load('BLOSUM62'), gap=1)
@@ -197,32 +208,39 @@ PDB files parser class. Initialize with pdb file name and easily retrieve struct
 
 *Commandline access:*
 ```console
-$ python3 main.py pdb file_name [--model] [--chain id] [--residue num] [--atom num][--width] [--distance distance] [-r] [-a]
+$ binf pdb file_name [--model] [--chain id] [--residue num] [--atom num][--width] [--distance distance] [-r] [-a]
 ```
 Example use: 
 ```console
-$ python3 main.py pdb inputs/1TUP.pdb
+$ binf pdb inputs/1TUP.pdb
 number of models: 1
 number of chains: 5
 number of residues: 1014
 number of atoms: 5828
 ```
 ```console
-$ python3 main.py pdb inputs/1TUP.pdb --width
+$ binf pdb inputs/1TUP.pdb --width
 87.83
 ```
 ```
-$ python3 main.py pdb inputs/1TUP.pdb --residue 951 --atom ZN --distance 4 -a
+$ binf pdb inputs/1TUP.pdb --residue 951 --atom ZN --distance 4 -a
 ('1tup', 0, 'A', (' ', 176, ' '), ('N', ' ')) ('1tup', 0, 'A', (' ', 239, ' '), ('N', ' '))
 ```
 *Python access:*
 ```
->>> import pdb 
->>> data = pdb.PDBMolecule(file_name) 
+>>> from binf.pdb import *
+>>> data = PDBMolecule(file_name)
+>>> data.get_chain(chain_id)
+>>> data.get_residue(res_id)
+>>> data.get_atom(atom_id, residue)
+>>> data.get_information()
+>>> data.get_width()
+>>> data.get_atoms_at_distance(hetatm, distance, round_digits=1)
+>>> data.get_residues_at_distance(hetatm, distance, round_digits=1)
 ```
 Example use:
 ```
->>> data = pdb.PDBMolecule('inputs/1TUP.pdb')
+>>> data = PDBMolecule('inputs/1TUP.pdb')
 >>> chain_A = data.get_chain('A')
 >>> residue_951 = data.get_residue(951)
 >>> zn_hetatm = data.get_atom('ZN', residue_951)
@@ -237,11 +255,11 @@ Extension of PDB parser. These functions compute the ratio of surface and buried
 
 *Commandline access:*
 ```console
-$ python3 main.py pdb file_name [--show_histogram] [--store_histogram HIS_FILE] [-e] [--polar] [--exposed]
+$ binf pdb file_name [--show_histogram] [--store_histogram HIS_FILE] [-e] [--polar] [--exposed]
 ```
 Example use: 
 ```console
-$ python3 main.py pdb inputs/1b0b.pdb --polar
+$ binf pdb inputs/1b0b.pdb --polar
 28% of buried residues is polar
 72% of buried residues is not polar
 49% of exposed residues is polar
@@ -249,7 +267,7 @@ $ python3 main.py pdb inputs/1b0b.pdb --polar
 ```
 *Python access:*
 ```
->>> import pdb
+>>> from binf.pdb import *
 >>> data = PDBMolecule(file_name)
 >>> data.show_histogram(exposed=False)
 >>> data.save_histogram(file='histogram', exposed='False')

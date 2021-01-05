@@ -1,6 +1,10 @@
 import argparse
 import sys
-import edit, ham, msa, pdb, fasta
+from .msa import *
+from .pdb import *
+from .fasta import *
+from .edit import *
+from .ham import *
 
 def main():
     """
@@ -8,7 +12,6 @@ def main():
     """
     arguments = argparse.ArgumentParser()
     arguments_sub = arguments.add_subparsers()
-    arguments.set_defaults(action='help')
 
     arguments_ed = arguments_sub.add_parser('ed', help='Count edit distance and align of two sequences.')
     arguments_ed.set_defaults(action='ed')
@@ -70,12 +73,12 @@ def main():
         arguments.print_usage()
         arguments.print_help()
     elif config.action == 'ed':
-        print(edit.edit_distance(config.seq1, config.seq2))
+        print(edit_distance(config.seq1, config.seq2))
         if config.align:
-            for align in edit.all_alignments(config.seq1, config.seq2):
+            for align in all_alignments(config.seq1, config.seq2):
                 print(align+"\n")
     elif config.action == 'fasta':
-        file = fasta.FastaFile(config.file)
+        file = Fasta(config.file)
         if config.description is not None:
             print(file.get_description(config.description))
         elif config.sequence is not None:
@@ -87,9 +90,9 @@ def main():
         else:
             print(file.get_molecules())
     elif config.action == 'ham':
-        print(ham.hd(config.seq1, config.seq2))
+        print(hd(config.seq1, config.seq2))
     elif config.action == 'msa':
-        file = msa.MSA(config.file)
+        file = MSA(config.file)
         if config.position is not None:
             print(file.get_seq_by_position(config.position))
         elif config.id is not None:
@@ -106,7 +109,7 @@ def main():
         elif config.cons is not None:
             print(file.get_conservation_scores(file.get_seq_by_position(config.cons)))
     elif config.action == 'pdb':
-        file = pdb.PDBMolecule(config.file)
+        file = PDBMolecule(config.file)
         if config.model:
             for chain in file.structure.get_chains():
                 print(chain.id)

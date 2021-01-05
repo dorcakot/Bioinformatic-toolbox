@@ -1,7 +1,6 @@
 import numpy
 from Bio import pairwise2
 
-
 def create_matrix(seq1, seq2):
     """
     Using dynamic programming, function creates matrix containing edit distance values for each i-long and j-long
