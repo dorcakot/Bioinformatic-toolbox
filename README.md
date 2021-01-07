@@ -3,7 +3,17 @@
 Bioinformatic toolbox contains basic functions, which help to handle basic bioinformatic tasks.
 User can retrieve some information using commandline or importing functions in own python program and work further with obtained objects and information.
 
-##### Steps to get bioinformatic toolbox running:
+##### If you want to try bioinformatic toolbox and avoid installing Python packages globally (which could break system tools or other projects), create a virtual one following these steps:
+```console
+$ git clone https://gitlab.mff.cuni.cz/dorcakot/bioinformatic-toolbox.git
+$ cd bioinformatic-toolbox
+$ python -m venv venv
+$ source venv/bin/activate
+$ python setup.py install
+```
+To finish working the virtual environment just type deactivate in your console.
+
+##### Steps to get bioinformatic toolbox running in your local environment without creating a virtual one:
 ```console
 $ git clone https://gitlab.mff.cuni.cz/dorcakot/bioinformatic-toolbox.git
 $ cd bioinformatic-toolbox
@@ -132,7 +142,7 @@ ATAATTGGGCAAGTC
 ```
 ```
 >>> molecules = Fasta('inputs/ls_orchid.fasta')
->>> print(molecules.get_sequence(10)
+>>> print(molecules.get_sequence(10))
 CGTAACAAGGTTTCCGTAGGTGAACCTGCGGAAGGATCATTGTTGAGACAGCAGAATATATGATCGAGTGAATCCGGTGGACTTGTGGTTACTCAGCTCGACATAGGCTTTGCTTTTGCGGTGACCCTAATTTGTCATTGGGCCTCCCCCCAAGCTTTCCTTGTGGGTTTGAACCTCTAGCACGGTGCAGTATGCGCCAAGTCATATGAAGCATCACTGATGAATGACATTATTGTCCAAAAAGTTGGAGTGGAAGCGTGCTATTGCATACATGCAAATGAATTTTTTATGACTCTCGACATATCGTGGTGTGATCGCAGAATCCCGTGAACCATCGAGTCTTTGAACGCAAGTTGCGCCCGATGCCATCAGGCTAAGGGAACGCCTGCCTGGGCGTCGTGTGCTGCGTCTCTCCTGTCAATGGTTATACGTCATATAGACAGGTTTGCATTGCGTGGATGTGAAAGATTGGCCCCTTGTGCCTAGGTGCGGTGGGTCTAAGGACTAGTGTTTTGATGGTTCGAAACCTGGCAGGAGGTGGAGGATGTTGGCAGCTATAAGGCTATCATTTGAATCCCCCATATTGTCGTGTTTGTCGGACCTAGAGAAGAACATGTTTGAATCCCAATGGGGGCAAACAACCCTCGGGCGGTTGATTGCCATTCATATGCGACCCCAGGTCAGGCGGCCACCCGCTGAG
 ```
 ##### Processing multiple sequence alignment

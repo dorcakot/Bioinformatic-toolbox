@@ -1,4 +1,4 @@
-from fasta import Fasta
+from .fasta import Fasta
 from typing import Union
 
 

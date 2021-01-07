@@ -81,8 +81,7 @@ def main():
         if config.align:
             all = ''
             for align in all_alignments(config.seq1, config.seq2):
-                all += str(align)
-                all += '\n\n'
+                all.append(align)
             log.info(all)
     elif config.action == 'fasta':
         file = Fasta(config.file)
