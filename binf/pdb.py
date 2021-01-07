@@ -9,7 +9,7 @@ class PDBMolecule:
     """
     PDBMolecule represents a molecule stored in pdb format.
     """
-    def __init__(self, file):
+    def __init__(self, file: str) -> None:
         """
         To initialize, use name of a file containing data in pdb format. This data is parsed and stored as 'structure'.
         :param file: name of a file containing pdb data
@@ -18,7 +18,7 @@ class PDBMolecule:
         self.structure = parser.get_structure(file.split('.')[0], file)
         self.model = self.structure.get_models()
 
-    def get_chain(self, id):
+    def get_chain(self, id: str) -> Chain:
         """
         Function to obtain an object representing a chain by its id.
         :param id: id of a chain
@@ -28,7 +28,7 @@ class PDBMolecule:
             if chain.id == id:
                 return chain
 
-    def get_residue(self, id):
+    def get_residue(self, id: int) -> Residue:
         """
         Function to obtain an object representing a residue by its id.
         :param id: id of a residue
@@ -38,7 +38,7 @@ class PDBMolecule:
             if id in residue.id:
                 return residue
 
-    def get_atom(self, id, residue):
+    def get_atom(self, id: str, residue: Residue) -> Atom:
         """
         Function to obtain an object representing an atom specified by its residue and id.
         :param id: id of an atom
@@ -49,7 +49,7 @@ class PDBMolecule:
             if id in atom.id:
                 return atom
 
-    def get_information(self):
+    def get_information(self) -> str:
         """
         Function to display information about number of models, chains, residues, atom within a pdb molecule.
         :return: information about a model
@@ -69,10 +69,10 @@ class PDBMolecule:
         info += str(atoms)
         return info
 
-    def get_width(self):
+    def get_width(self) -> float:
         """
         This function calculates width of the molecule by finding the greatest distance between two atoms.
-        :return: widt of the molecule
+        :return: width of the molecule
         """
         width = 0
         atoms = self.structure.get_atoms()
@@ -85,7 +85,7 @@ class PDBMolecule:
                     width = current
         return round(width,3)
 
-    def get_atoms_at_distance(self, hetatm, distance, round_digits=1):
+    def get_atoms_at_distance(self, hetatm: Atom, distance: float, round_digits: int = 1) -> list:
         """
         Function serves to find all the atoms at given distance from a heteroatom.
         :param hetatm: object representing an atom
@@ -99,7 +99,7 @@ class PDBMolecule:
                 atoms.append(atom)
         return atoms
 
-    def get_residues_at_distance(self, hetatm, distance, round_digits=1):
+    def get_residues_at_distance(self, hetatm: Atom, distance: float, round_digits: int = 1) -> list:
         """
         Function serves to find all the residues at given distance from a heteroatom.
         :param hetatm: object representing an atom
@@ -114,7 +114,7 @@ class PDBMolecule:
                     residues.append(atom.get_parent())
         return residues
 
-    def ratio_exposed(self):
+    def ratio_exposed(self) -> str:
         """
         Function calculates ratio of exposed and buried amino acids within a molecule using half-sphere exposure values.
         :return: string describing ratio of exposed and buried residues in %
@@ -129,7 +129,7 @@ class PDBMolecule:
         return str(round(buried * 100 / (buried + exposed))) + "% of residues is buried\n"\
         + str(round(exposed * 100 / (buried + exposed))) + "% of residues is exposed"
 
-    def get_exposed_buried(self):
+    def get_exposed_buried(self) -> str:
         """
         Help function providing data for histogram in form of dictionaries containing numbers of each amino acids found
         in a molecule.
@@ -149,7 +149,7 @@ class PDBMolecule:
 
         return his_bur, his_suf
 
-    def polarity_ratio(self):
+    def polarity_ratio(self) -> str:
         """
         Function calculates proportion of polar and nonpolar buried and exposed amino acids within a molecule.
         :return: string describing ratio of polar and nonpolar residues in %
@@ -176,7 +176,7 @@ class PDBMolecule:
         res += str(round(nonpolar * 100 / (polar + nonpolar))) + "% of exposed residues is not polar"
         return res
 
-    def show_histogram(self, exposed=False):
+    def show_histogram(self, exposed: bool = False) -> None:
         """
         Function outputs a histogram showing amino acid composition of either buried or exposed residues.
         :param exposed: specifies which data to show (buried or exposed amino acid composition)
@@ -188,7 +188,7 @@ class PDBMolecule:
         plt.bar(data[i].keys(), data[i].values())
         plt.show()
 
-    def save_histogram(self, file="histogram", exposed=False):
+    def save_histogram(self, file: str = "histogram", exposed: bool = False) -> None:
         """
         Function stores a histogram showing amino acid composition of either buried or exposed residues.
         :param file: name of the histogram file

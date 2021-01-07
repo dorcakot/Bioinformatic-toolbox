@@ -1,10 +1,12 @@
 import argparse
 import sys
+import logging
 from .msa import *
 from .pdb import *
 from .fasta import *
 from .edit import *
 from .ham import *
+
 
 def main():
     """
@@ -48,10 +50,10 @@ def main():
     arguments_pdb.add_argument('file')
     arguments_pdb.add_argument('--model', action='store_true')
     arguments_pdb.add_argument('--chain', dest='chain')
-    arguments_pdb.add_argument('--residue', dest='residue')
+    arguments_pdb.add_argument('--residue', dest='residue', type=int)
     arguments_pdb.add_argument('--atom', dest='atom')
     arguments_pdb.add_argument('--width', action='store_true')
-    arguments_pdb.add_argument('--distance', dest='dist', type=int)
+    arguments_pdb.add_argument('--distance', dest='dist', type=float)
     arguments_pdb.add_argument('-r', action='store_true')
     arguments_pdb.add_argument('-a', action='store_true')
     arguments_pdb.add_argument('--show_histogram', action='store_true')
@@ -67,73 +69,92 @@ def main():
                 self.action = 'help'
         config = HelpConfig()
     else:
+        log = logging.getLogger()
+        logging.basicConfig(format='%(message)s', level=logging.INFO)
         config = arguments.parse_args()
 
     if config.action == 'help':
         arguments.print_usage()
         arguments.print_help()
     elif config.action == 'ed':
-        print(edit_distance(config.seq1, config.seq2))
+        log.info(edit_distance(config.seq1, config.seq2))
         if config.align:
+            all = ''
             for align in all_alignments(config.seq1, config.seq2):
-                print(align+"\n")
+                all += str(align)
+                all += '\n\n'
+            log.info(all)
     elif config.action == 'fasta':
         file = Fasta(config.file)
         if config.description is not None:
-            print(file.get_description(config.description))
+            log.info(file.get_description(config.description))
         elif config.sequence is not None:
-            print(file.get_sequence(config.sequence))
+            log.info(file.get_sequence(config.sequence))
         elif config.length is not None:
-            print(file.get_sequence_length(config.length))
+            log.info(file.get_sequence_length(config.length))
         elif config.sub is not None:
-            print(file.get_subsequence(config.sub[0], config.sub[1], config.sub[2]))
+            log.info(file.get_subsequence(config.sub[0], config.sub[1], config.sub[2]))
         else:
-            print(file.get_molecules())
+            log.info(file.get_molecules())
     elif config.action == 'ham':
-        print(hd(config.seq1, config.seq2))
+        log.info(hd(config.seq1, config.seq2))
     elif config.action == 'msa':
         file = MSA(config.file)
         if config.position is not None:
-            print(file.get_seq_by_position(config.position))
+            log.info(file.get_seq_by_position(config.position))
         elif config.id is not None:
-            print(file.get_seq_by_id(config.id))
+            log.info(file.get_seq_by_id(config.id))
         elif config.column is not None:
-            print(file.get_column(config.column))
+            log.info(file.get_column(config.column))
         elif config.cs is not None:
-            print(file.get_column_score(config.cs))
+            log.info(file.get_column_score(config.cs))
         elif config.score:
-            print(file.get_score())
+            log.info(file.get_score())
         elif config.top is not None:
+            top_list = []
             for t in (file.get_top_scoring_positions(config.top)):
-                print('Position '+str(t[1])+' has score '+str(t[0]))
+                top_list.append('Position '+str(t[1])+' has score '+str(t[0]))
+            log.info(top_list)
         elif config.cons is not None:
-            print(file.get_conservation_scores(file.get_seq_by_position(config.cons)))
+            log.info(file.get_conservation_scores(config.cons))
     elif config.action == 'pdb':
         file = PDBMolecule(config.file)
         if config.model:
+            chains = ''
             for chain in file.structure.get_chains():
-                print(chain.id)
+                chains += chain.id
+                chains += '\n'
+            log.info(chains)
         elif config.chain is not None:
             ch = file.get_chain(config.chain)
+            residues= []
             for residue in ch:
-                print(residue.get_resname(), residue.full_id)
+                residues.append((residue.get_resname(),residue.full_id))
+                residues.append(2)
+            log.info(residues)
         elif config.dist:
             if config.a:
+                atoms = []
                 for atom in file.get_atoms_at_distance(file.get_atom(config.atom, file.get_residue(config.residue)),config.dist):
-                    print(atom.full_id)
+                    atoms.append(atom.full_id)
+                log.info(atoms)
             elif config.r:
+                residues = []
                 for residue in file.get_residues_at_distance(file.get_atom(config.atom, file.get_residue(config.residue)),config.dist):
-                    print(residue.full_id)
+                    residues.append((residue.get_resname(),residue.full_id))
+                log.info(residues)
         elif config.atom is not None:
             res = file.get_residue(config.residue)
             atom = file.get_atom(config.atom, res)
-            print(atom.full_id)
+            log.info(atom.full_id)
         elif config.residue is not None:
             res = file.get_residue(config.residue)
+            atoms = []
             for atom in res:
-                print(atom.full_id)
+                atoms.append(atom.full_id)
+            log.info(atoms)
         elif config.width:
-            print(file.get_width())
+            log.info(file.get_width())
         elif config.show_histogram:
             if config.e:
                 file.show_histogram(exposed=True)
@@ -145,11 +166,11 @@ def main():
             else:
                 file.save_histogram(config.his_file)
         elif config.polar:
-            print(file.polarity_ratio())
+            log.info(file.polarity_ratio())
         elif config.exposed:
-            print(file.ratio_exposed())
+            log.info(file.ratio_exposed())
         else:
-            print(file.get_information())
+            log.info(file.get_information())
 
 
 
